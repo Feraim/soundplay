@@ -1,0 +1,359 @@
+/* =========================================================================
+   HOJA DE ESTILOS PRINCIPAL DE SOUNDPLAY
+   Contiene todas las variables de color, layout global y maquetación UI
+========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
+
+/* ----- VARIABLES DE TEMA (MODO OSCURO PREMIUM) ----- */
+:root {
+    --bg-black: #050505;        /* Fondo oscuro absoluto */
+    --text-white: #ffffff;      /* Texto de alto contraste */
+    --text-gray: #a0a0a0;       /* Texto secundario / subtítulos */
+    --primary-red: #ff0000;     /* Rojo icónico de la marca */
+    --soft-red: #ff3333;        /* Rojo para hovers y sombras */
+    --dark-surface: #111111;    /* Fondos de tarjetas y contenedores */
+}
+
+/* ----- RESETEO GLOBAL ----- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    /* Personalización general de las barras de desplazamiento (Scrollbars) */
+    scrollbar-width: thin;
+    scrollbar-color: #333 var(--bg-black);
+}
+
+/* Base corporal de la web */
+body {
+    background-color: var(--bg-black);
+    color: var(--text-white);
+    padding-bottom: 70px; /* Margen inferior para alojar la barra de navegación */
+    overflow-x: hidden;
+}
+
+/* ===== BARRA SUPERIOR DE LA APLICACIÓN ===== */
+.barra-superior-app {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(5,5,5,0.9);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* Icono del menú hamburguesa */
+.icono-menu {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-white);
+}
+
+/* Texto de logotipo centrado */
+.texto-logo {
+    font-size: 1.2rem;
+    font-weight: 900;
+    font-style: italic;
+    color: var(--primary-red);
+    letter-spacing: 1px;
+}
+
+/* Grupo de iconos a la derecha (Búsqueda, Perfil...) */
+.iconos-derecha {
+    display: flex;
+    gap: 15px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* Contenedor central (Cambia según la URL de la página) */
+#contenedor-app {
+    padding: 20px;
+}
+
+/* ===== SECCIÓN DE ARTISTAS (REJILLAS) ===== */
+h2.titulo-seccion {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+/* Grid para listar tarjetas (ej. en inicio o buscar) */
+.rejilla-artistas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+}
+
+/* Tarjeta individual de artista */
+.tarjeta-artista {
+    background: var(--dark-surface);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.tarjeta-artista:hover {
+    transform: translateY(-5px);
+}
+
+/* Posicionamiento de la imagen de avatar respecto a la de portada */
+.contenedor-avatar {
+    position: relative;
+    padding-bottom: 100%; /* Truco CSS para mantener aspect ratio cuadrado */
+}
+
+.contenedor-avatar img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Etiqueta flotante con el nombre del artista en la tarjeta */
+.info-etiqueta {
+    padding: 15px;
+}
+.info-etiqueta h3 { font-size: 1rem; font-weight: 800; margin-bottom: 5px; }
+.info-etiqueta p { font-size: 0.8rem; color: var(--text-gray); }
+
+
+/* ===== REPRODUCTOR FLOTANTE INFERIOR ===== */
+.reproductor {
+    position: fixed;
+    bottom: 60px; /* Justo por encima de la navegación inferior */
+    left: 10px;
+    right: 10px;
+    background: #1a1a1a;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+}
+
+/* Detalles del track sonando */
+.info-cancion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.info-cancion img {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.info-cancion .texto h4 {
+    font-size: 0.95rem;
+    font-weight: 800;
+}
+
+.info-cancion .texto p {
+    font-size: 0.75rem;
+    color: var(--text-gray);
+}
+
+/* Controles de pausa/siguiente */
+.controles-movil {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    font-size: 1.3rem;
+}
+
+
+/* ===== BARRA DE NAVEGACIÓN INFERIOR ===== */
+.navegacion-inferior {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: rgba(5,5,5,0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 0;
+    z-index: 1000;
+    border-top: 1px solid #1a1a1a;
+}
+
+.item-nav {
+    color: var(--text-gray);
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.item-nav.activo, .item-nav:hover {
+    color: var(--primary-red);
+}
+
+
+/* ===== DISEÑO DEL BANNER PRINCIPAL ===== */
+.banner-principal {
+    position: relative;
+    height: 350px;
+    background: url('../img/artist1.jpg') center/cover;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+/* Degradado para hacer legible el texto sobre la imagen */
+.sombra-banner {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(to top, var(--bg-black) 10%, transparent);
+}
+
+.texto-banner {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+.texto-banner h2 { font-size: 2.2rem; font-weight: 900; margin-bottom: 5px; }
+.texto-banner p { font-size: 0.9rem; color: #ddd; }
+
+
+/* ===== MENÚ DESLIZANTE LATERAL (HAMBURGUESA) ===== */
+.menu-deslizante {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 280px;
+    height: 100vh;
+    background: #111;
+    z-index: 3000;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 20px rgba(0,0,0,0.9);
+}
+
+/* Clase para abrir el menú */
+.menu-deslizante.abierto {
+    left: 0;
+}
+
+/* Fondo oscuro tapando el resto de la web */
+.capa-oscura-menu {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(2px);
+    z-index: 2999;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+}
+
+.capa-oscura-menu.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.cabecera-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.cabecera-menu h2 { color: var(--primary-red); font-style: italic; font-weight: 900; }
+.boton-cerrar { font-size: 1.5rem; color: var(--text-gray); cursor: pointer; }
+
+/* Perfil resumen arriba en el menú */
+.perfil-menu {
+    padding: 0 20px 20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid #222;
+}
+
+.perfil-menu img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+.perfil-menu h3 { font-size: 1rem; font-weight: 800; }
+.perfil-menu p { font-size: 0.75rem; color: var(--text-gray); }
+
+/* Barra de búsqueda integrada al menú lateral */
+.busqueda-menu {
+    margin: 20px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    gap: 10px;
+}
+.busqueda-menu input { background: transparent; border: none; color: white; outline: none; width: 100%; }
+
+/* Secciones de filtros tipo chips */
+.filtros-menu {
+    padding: 0 20px 20px 20px;
+    display: flex;
+    gap: 10px;
+}
+.filtro-m {
+    padding: 5px 12px;
+    background: #222;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--text-gray);
+    cursor: pointer;
+}
+
+/* Enlaces del Drawer */
+.enlaces-menu {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.enlaces-menu a {
+    color: #ccc;
+    text-decoration: none;
+    padding: 15px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.enlaces-menu a:hover { background: rgba(255,0,0,0.1); color: white; }
+.enlaces-menu i { width: 20px; text-align: center; color: #888; font-size: 1.1rem; }
+
+/* Pie de menú (Versión y Salida) */
+.icono-cuadrado { background: var(--soft-red); width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; }
+.icono-cuadrado i { color: white; font-size: 0.9rem; }
+
+.pie-menu {
+    padding: 20px;
+    border-top: 1px solid #222;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-black); }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary-red); }
