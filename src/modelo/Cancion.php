@@ -48,23 +48,6 @@ class Cancion {
     // Método para obtener la suma total de reproducciones de todas las canciones de un artista
     // Se ejecuta de forma segura: si la columna 'reproducciones' no existe en la base de datos, 
     // captura la excepción y retorna 0 para evitar que la aplicación falle.
-    public function obtenerTotalReproduccionesArtista($id_artista) {
-        $sql = "SELECT SUM(c.reproducciones) AS total 
-                FROM canciones c 
-                INNER JOIN albumes a ON c.id_album = a.id_album 
-                WHERE a.id_artista = :id_artista";
-        try {
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(':id_artista', $id_artista, PDO::PARAM_INT);
-            $stmt->execute();
-            $res = $stmt->fetch(PDO::FETCH_ASSOC);
-            return (int)($res['total'] ?? 0);
-        } catch (\PDOException $e) {
-            // Loguear error silencioso en caso de columna inexistente
-            error_log("Error al obtener reproducciones del artista (columna inexistente o error SQL): " . $e->getMessage());
-            return 0; // Fallback seguro
-        }
-    }
 
     public function obtenerCancionesConAlbumPorArtista($id_artista) {
         $sql = "SELECT c.id_cancion, c.id_album, c.titulo, c.archivo_ruta, c.duracion, c.genero,
@@ -169,7 +152,7 @@ class Cancion {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             error_log("Error al buscar: " . $e->getMessage());
-            return [];
+            return []; //Devuelve un array vacio al controlador
         }
     }
 }
