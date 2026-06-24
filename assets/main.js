@@ -289,7 +289,8 @@
             /* Cerrar todos los tracklists y desactivar todas las tarjetas */
             document.querySelectorAll('.album-tracklist').forEach(function (t) {
                 t.classList.remove('open'); //les quita la clase open
-            //Luego el código de abajo abre solo el que hiciste clic (si estaba cerrado). Así solo puede haber un tracklist abierto a la vez.
+            //Luego el código de abajo abre solo el que hiciste clic (si estaba cerrado). 
+            // Así solo puede haber un tracklist abierto a la vez.
             });
             document.querySelectorAll('.album-card').forEach(function (c) {
                 c.classList.remove('active');
