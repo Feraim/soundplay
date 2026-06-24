@@ -111,9 +111,9 @@
         //src define qué archivo va a sonar
 
         /* Actualizar información en el reproductor inferior */
-        spTitulo.textContent  = item.dataset.titulo  || '—';
-        spArtista.textContent = item.dataset.artista || '—';
-        
+        spTitulo.textContent  = item.dataset.titulo  || '—'; //lee el data-titulo del HTML 
+        spArtista.textContent = item.dataset.artista || '—'; //cambia el texto del <span id="sp-titulo">
+        //Por defecto muestran — (guión). Cuando el JavaScript carga una canción, reemplaza ese guión con el título y artista reales
 
         /* Actualizar la miniatura de portada */
         spCover.innerHTML = '';
