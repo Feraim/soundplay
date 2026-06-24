@@ -1,9 +1,10 @@
-/* 
+/* ==========================================================================
    main.js — SoundPlay
    Contiene toda la lógica JavaScript de la aplicación:
    1. Menú hamburguesa
    2. Reproductor global estilo Spotify (funciona en género, perfil y búsqueda)
-   3. Accordion de álbumes (páginas de género y perfil de artista)*/
+   3. Accordion de álbumes (páginas de género y perfil de artista)
+   ========================================================================== */
 
 
 /* --------------------------------------------------------------------------
@@ -17,7 +18,9 @@
 
     btn.addEventListener('click', function () {
         nav.classList.toggle('active');
+        // añade/quita la clase "active" al <nav class="nav-menu">
         btn.classList.toggle('open');
+        //añade/quita la clase "open" al <button class="menu-hamburguesa">
     });
 })();
 
@@ -111,9 +114,9 @@
         //src define qué archivo va a sonar
 
         /* Actualizar información en el reproductor inferior */
-        spTitulo.textContent  = item.dataset.titulo  || '—'; //lee el data-titulo del HTML 
-        spArtista.textContent = item.dataset.artista || '—'; //cambia el texto del <span id="sp-titulo">
-        //Por defecto muestran — (guión). Cuando el JavaScript carga una canción, reemplaza ese guión con el título y artista reales
+        spTitulo.textContent  = item.dataset.titulo  || '—';
+        spArtista.textContent = item.dataset.artista || '—';
+
 
         /* Actualizar la miniatura de portada */
         spCover.innerHTML = '';
@@ -269,43 +272,60 @@
    Solo se activa si existen tarjetas .album-card en el DOM (género y perfil).
    -------------------------------------------------------------------------- */
 (function () {
-    var cards      = document.querySelectorAll('.album-card');
+    var cards      = document.querySelectorAll('.album-card'); //Lista de tarjetas de album
     var cerrarBtns = document.querySelectorAll('.album-tracklist-cerrar');
+    //Es el botón X que aparece en la cabecera de cada tracklist desplegado
     if (!cards.length) return; // No hay álbumes en esta página
 
     /* Clic en la tarjeta del álbum: abre su tracklist y cierra los demás */
     cards.forEach(function (card) {
+        //foreach recorre las card, con la funcion pongo un listener a cada boton
         card.addEventListener('click', function () {
-            var id     = card.dataset.albumId;
-            var tl     = document.getElementById('tracklist-' + id);
-            var isOpen = tl.classList.contains('open');
-
+            var id= card.dataset.albumId;
+            //lee data-album-id de la tarjeta donde hiciste clic
+            var tl= document.getElementById('tracklist-' + id);
+            var isOpen= tl.classList.contains('open');
+            //comprobamos is el tl esta abierto
             /* Cerrar todos los tracklists y desactivar todas las tarjetas */
             document.querySelectorAll('.album-tracklist').forEach(function (t) {
-                t.classList.remove('open');
+                t.classList.remove('open'); //les quita la clase open
+            //Luego el código de abajo abre solo el que hiciste clic (si estaba cerrado). Así solo puede haber un tracklist abierto a la vez.
             });
             document.querySelectorAll('.album-card').forEach(function (c) {
                 c.classList.remove('active');
             });
+            //recorremos las album card y añadimos active a las que hagamos click
 
             /* Si estaba cerrado, abrirlo y hacer scroll hacia él */
             if (!isOpen) {
-                tl.classList.add('open');
-                card.classList.add('active');
+                tl.classList.add('open');//muestra la lista de canciones
+                card.classList.add('active'); //resalta la tarjeta del álbum
                 tl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                //scrollIntoView: esplaza la página automáticamente hasta que el elemento sea visible en la pantalla.
             }
         });
     });
 
     /* Botón X dentro del tracklist: cierra ese panel específico */
     cerrarBtns.forEach(function (btn) {
+        //La lista de los botones recorre cada elemento de la lista
+        //btn es cada uno de los botones
         btn.addEventListener('click', function (e) {
-            e.stopPropagation(); // Evitar que el clic llegue a la tarjeta del álbum
+            e.stopPropagation(); 
+    // Evitar que el clic llegue a la tarjeta del álbum
+    //Con esto clic en X → se ejecuta solo el listener de la X 
+    // el clic no llega a la tarjeta
+    //Si el click llega a la tarjeta el tracklist se volveria a abrir y cerra inmediatamente
             var id   = btn.dataset.albumId;
+            //lee data-album-id
             var tl   = document.getElementById('tracklist-' + id);
+            //buscamos el tracklist al que pertenece ese id
             var card = document.querySelector('.album-card[data-album-id="' + id + '"]');
+            //Buscamos una clase con album-card que tena un atriburo data-album-id igual a x
             if (tl)   tl.classList.remove('open');
+            //si encuentra el track oculta open
             if (card) card.classList.remove('active');
+            //si encuentra la tarjeta deja de ser resaltada
         });
     });
 })();
