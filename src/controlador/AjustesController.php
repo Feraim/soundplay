@@ -23,28 +23,7 @@ class AjustesController
         }
     }
 
-    public function guardarPreferencias()
-    {
-        $this->requerirSesion();
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . $this->urlBase() . '/ajustes.php');
-            exit();
-        }
-        csrf_verificar();
-
-        $activo = isset($_POST['recomendaciones']) ? 1 : 0;
-        $db = new Database();
-        $conn = $db->conectar();
-        $usuarioModel = new Usuario($conn);
-        if ($usuarioModel->actualizarRecomendaciones((int) $_SESSION['usuario_id'], $activo)) {
-            $_SESSION['mensaje_exito'] = 'Preferencias guardadas correctamente.';
-        } else {
-            $_SESSION['mensaje_error'] = 'No se pudieron guardar las preferencias.';
-        }
-        header('Location: ' . $this->urlBase() . '/ajustes.php');
-        exit();
-    }
-
+    
     public function guardarPerfilArtista()
     {
         $this->requerirSesion();
@@ -85,6 +64,12 @@ class AjustesController
                 exit();
             }
             $dirSubida = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'perfiles' . DIRECTORY_SEPARATOR;
+            /*
+            DIRECTORY_SEPARATOR
+            Es una constante de PHP que contiene el separador de carpetas del sistema operativo:           
+            En Windows: \
+            En Linux/Mac: /
+            */
             if (!is_dir($dirSubida)) {
                 mkdir($dirSubida, 0777, true);
             }
