@@ -48,6 +48,12 @@ class CancionController {
             $tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             $mimeReal = finfo_file($finfo, $_FILES['portada']['tmp_name']);
+            /*
+            finfo_open: crea una herramienta para analizar archivos
+            FILEINFO_MIME_TYPE: quiero que detectes el tipo MIME
+            finfo_file: la herramiento que abri para leer los bytes del archivo
+            lee los bytes del archivo para detectar que tipo de archivo es
+            */
             finfo_close($finfo);
             if (!in_array($mimeReal, $tiposPermitidos, true)) {
                 $_SESSION['mensaje_error'] = "El archivo de portada debe ser una imagen JPG, PNG, WebP o GIF.";
@@ -63,6 +69,11 @@ class CancionController {
 
             // Generar nombre de archivo único para evitar colisiones
             $fileExtension = pathinfo($_FILES['portada']['name'], PATHINFO_EXTENSION);
+            /*
+            pathinfo: Es una función de PHP que extrae información de una ruta de archivo
+            PATHINFO_EXTENSION: Es una constante de PHP que le dice a pathinfo() que 
+            solo devuelva la extensión del archivo (lo que va después del último punto)
+            */
             $fileName = uniqid('portada_', true) . '.' . $fileExtension;
             $destinationPath = $uploadDir . $fileName;
 
