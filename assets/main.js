@@ -1,10 +1,9 @@
-/* ==========================================================================
+/* 
    main.js — SoundPlay
    Contiene toda la lógica JavaScript de la aplicación:
    1. Menú hamburguesa
    2. Reproductor global estilo Spotify (funciona en género, perfil y búsqueda)
-   3. Accordion de álbumes (páginas de género y perfil de artista)
-   ========================================================================== */
+   3. Accordion de álbumes (páginas de género y perfil de artista)*/
 
 
 /* --------------------------------------------------------------------------
@@ -37,7 +36,7 @@
    -------------------------------------------------------------------------- */
 (function () {
     /* -- Referencias al DOM del reproductor -- */
-    var audio = document.getElementById('sp-audio');
+    var audio = document.getElementById('sp-audio'); //etiqueta audio
     if (!audio) return; // No existe reproductor en esta página
 
     var player        = document.getElementById('sp-player');
@@ -55,8 +54,8 @@
     var volumeSlider  = document.getElementById('sp-volume');
 
     /* Selector unificado: abarca los dos tipos de elementos reproducibles */
-    var ITEM_SEL = '.track-row, .buscar-resultado-card';
-    var BTN_SEL  = '.track-play-btn, .buscar-play-btn';
+    var ITEM_SEL = '.track-row, .buscar-resultado-card'; //constantes
+    var BTN_SEL  = '.track-play-btn, .buscar-play-btn'; //constantes
 
     var items        = []; // Cola de reproducción actual
     var currentIndex = -1; // Índice del ítem en reproducción (-1 = ninguno)
@@ -65,6 +64,8 @@
     /* Reconstruye la cola leyendo el DOM (se llama tras abrir un tracklist) */
     function buildQueue() {
         items = Array.from(document.querySelectorAll(ITEM_SEL));
+        //busca todos los elementos que coincidan con el selector y devuelve un NodeList, 
+        //pero con Array.from lo conviertes en un array 
     }
     buildQueue();
 
@@ -78,29 +79,41 @@
 
     /* Restablece visualmente el ítem activo al estado "parado" */
     function resetCurrent() {
-        if (!currentBtn) return;
-        currentBtn.querySelector('.icon-play').style.display  = '';
+        if (!currentBtn) return; 
+        //al principio estará vacío, cunado escuhemos alguna cancion
+        //si funcionaŕa
+        currentBtn.querySelector('.icon-play').style.display  = ''; 
+        //busca el icono play dentro del botón activo, lo hace visible (quita el display:none)
         currentBtn.querySelector('.icon-pause').style.display = 'none';
+        //oculta el icono pause
         var item = currentBtn.closest(ITEM_SEL);
+        //sube hasta truck.row
         if (item) item.classList.remove('playing');
+        //si item existe borra la clase llamada playing
     }
 
     /* Carga un ítem en el reproductor por su índice en la cola.
        Si autoplay es true, comienza la reproducción inmediatamente. */
     function loadTrack(index, autoplay) {
         if (index < 0 || index >= items.length) return;
+        //si el indice de la cancion es menor que o es mayor que el total de canciones 
+        //no hace nada
         var item = items[index];
+        //En esta variable guardo
 
         resetCurrent(); // Limpiar estado del ítem anterior
-        currentIndex = index;
+        currentIndex = index; //La lista empezará por este índice
         currentBtn   = item.querySelector(BTN_SEL);
-
+        //Saca el elemento de la cola, limpia el anterior, guarda el nuevo índice y botón
         /* Asignar el archivo de audio al elemento <audio> nativo */
         audio.src = item.dataset.src;
+        //audio es una referencia a la etiqueta audio
+        //src define qué archivo va a sonar
 
         /* Actualizar información en el reproductor inferior */
         spTitulo.textContent  = item.dataset.titulo  || '—';
         spArtista.textContent = item.dataset.artista || '—';
+        
 
         /* Actualizar la miniatura de portada */
         spCover.innerHTML = '';
